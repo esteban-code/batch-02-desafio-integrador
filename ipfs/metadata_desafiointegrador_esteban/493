@@ -1,0 +1,27 @@
+{
+  "name": "MOCHE#493",
+  "description": "Coleccion de Esteban del desafio integrador",
+  "image": "ipfs://QmWJ3udcvB2XjvgWjcn8YrC7w8VEL2VWaUMq1x6Ns4t29k/493.png",
+  "attributes": [
+    {
+      "trait_type": "MANTO",
+      "value": "MANTO TIERRA"
+    },
+    {
+      "trait_type": "BANCO",
+      "value": "GRIEGO"
+    },
+    {
+      "trait_type": "CUY",
+      "value": "CUY ALIEN"
+    },
+    {
+      "trait_type": "CHULLO",
+      "value": "GORRO PACHACUY"
+    },
+    {
+      "trait_type": "CARA",
+      "value": "OJOS BASE"
+    }
+  ]
+}

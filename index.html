@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <title>
+        <%= htmlWebpackPlugin.options.title %>
+    </title>
+    <style>
+        TD,TH {
+            border:1px solid black;
+            margin:0px;
+            padding:0px;
+        }
+    </style>
+
+</head>
+
+<body style="padding-left:5px;">
+    <div>
+        <!--h2>Log In</h2-->
+        <h2>Conexión Metamask</h2>
+        <div>Conectado a la red: <span id="redId"></span></div>
+        <br>
+        <div>Connectado con cuenta: <span id="walletId"></span></div>
+        <button id="connect">Actualizar</button>
+        
+    </div>
+
+
+<div style="background-color:rgb(0, 255, 149)">
+    <h1>RED GOERLI</h1>
+
+    <h2>Contract Addresses</h2>
+    <table style="border-collapse:collapse; margin: 0px; padding: 0px;">
+        <tr>
+            <th style="width:200px"></th>
+            <th style="width:600px">Adress</th>
+        </tr>
+        <tr>
+            <td>Billetera</td>
+            <td><span id="walletAddress"></span></td>
+        </tr>
+        <tr>
+            <td>USDCoin</td>
+            <td><span id="usdcAddress"></span></td>
+        </tr>
+        <tr>
+            <td>BBitesToken</td>
+            <td><span id="bbTokenAddress"></span></td>
+        </tr>
+        <tr>
+            <td>PublicSale</td>
+            <td><span id="publicSaleAddress"></span></td>
+        </tr>
+        <tr>
+            <td>Liquidity Provider</td>
+            <td><span id="liqProviderAddress"></td>
+        </tr>
+        <tr>
+            <td>Swapper</td>
+            <td><span id="swapperAddress"></td>
+        </tr>
+        <tr>
+            <td>Pool de Liquidez</th>
+            <td><span id="poolAddress"></span></th>
+        </tr>
+    </table>
+
+    <h2>Balances</h2>
+    <table style="border-collapse:collapse; margin: 0px; padding: 0px;">
+        <tr>
+            <th style="width:200px"></th>
+            <th style="width:200px">USDCoin</th>
+            <th style="width:200px">BBToken</th>
+            <th style="width:200px">Ether</th>
+        </tr>
+        <tr>
+            <td>Billetera</td>
+            <td><span id="walletUsdcBalance"></span></td>
+            <td><span id="walletBBTokenBalance"></span></td>
+            <td><span id="walletEtherBalance"></span></td>
+        </tr>
+        <tr>
+            <td>PublicSale</td>
+            <td><span id="publisSaleUsdcBalance"></span></td>
+            <td><span id="publicSaleBBTokenBalance"></span></td>
+            <td><span id="publicSaleEtherBalance"></span></td>
+        </tr>
+        <tr>
+            <td>Liquidity Provider</td>
+            <td><span id="liqProviderUsdcBalance"></td>
+            <td><span id="liqProviderBBTokenBalance"></td>
+            <td><span id="liqProviderEtherBalance"></span></td>
+        </tr>
+        <tr>
+            <td>Swapper</td>
+            <td><span id="swapperUsdcBalance"></td>
+            <td><span id="swapperBBTokenBalance"></td>
+            <td><span id="swapperEtherBalance"></span></td>
+        </tr>
+        <tr>
+            <td>Pool de Liquidez</th>
+            <td><span id="poolUsdcBalance"></span></th>
+            <td><span id="poolBBTokenBalance"></span></th>
+            <td><span id="poolEtherBalance"></span></th>
+        </tr>
+        <tr>
+            <td><button id="refreshBalances">Refrescar</button></td>
+            <td colspan="3"><span id="error_refreshBalances" style="color: red;"></span></td>
+        </tr>
+    </table>
+
+    <br>
+
+    <hr style="color:blue; border: solid;">
+    <h2 style="color:blue;">Pool, simular adquirir USDCoins y Swap para adquirir BBTokens</h2>
+    <h2>Crear el pool de liquidez (la billetera conectada entregará el saldo de cada moneda)</h2>
+    <div>
+        <label for="poolInputUSDC">Cantidad de USDCoins</label>
+        <input type="text" id="poolInputUSDC" name="poolInputUSDC" placeholder="# USDC a enviar al pool de liquidez">
+        * se recomienda 500000 USDCoins (saldo completo de la billetera)
+        </br>
+        <label for="poolInputBBToken">Cantidad BBTokens</label>
+        <input type="text" id="poolInputBBToken" name="poolInputBBToken" placeholder="# BBTokens a enviar al pool de liquidez">
+        * se recomienda 1000000 BBTokens (saldo completo de la billetera)
+        </br>
+        <button id="crearPoolLiqBtn">Crear Pool Liquidez</button>
+        <span id="crearPoolLiqAddress" style="color: blue;"></span>
+        <span id="crearPoolLiqError" style="color: red;"></span>
+    </div>
+    <br>
+    <h2>Mint USDCoins <small style="font-size: small;">(simular que el comprador obtiene USDCoins en algun Exchange)</small></h2>
+    <div>
+        <label for="purchaseInput">Se acuñara USDCoins a la billetera</label>
+        <input type="text" id="mintUsdc" name="mintUsdc" placeholder="# USDC to mint">
+        <button id="mintUsdcBtn">Mint</button>
+        <span id="spanMintUsdc" style="color: blue;"></span>
+        <span id="mintUsdcBtn_Error" style="color: red;"></span>
+    </div>
+    <br>
+    <br>
+    <table style="border-collapse: collapse">
+        <tr>
+            <td style="width:500px">
+                <h2>Swap Exact USDCoins for BBTokens</h2>
+                <div>
+                    <label for="amountInUscd">Cantidad exacta de USDCoins</label>
+                    <input type="text" id="amountInUscd" name="amountInUscd" placeholder="# Exact USDCoins">
+                    </br>
+                    <label for="amountOutMinBBToken">Cantidad min de BBTokens</label>
+                    <input type="text" id="amountOutMinBBToken" name="amountOutMinBBToken" placeholder="# Min BBTokens">
+                    </br>
+                    <button id="btnSwapExactFor">Swap Exact USDCoins for BBTokens</button>
+                    <span id="spanSwapExactFor" style="color: blue;"></span>
+                    <span id="errorSwapExactFor" style="color: red;"></span>
+                </div>
+            </td>
+            <td style="width:500px">
+                <h2>Swap USDCoins for Exact BBTokens</h2>
+                <div>
+                    <label for="amountInMaxUsdc">Cantidad max de USDCoins</label>
+                    <input type="text" id="amountInMaxUsdc" name="amountInMaxUsdc" placeholder="# Max USDCoins">
+                    </br>
+                    <label for="amountOutBBToken">Cantidad exacta de BBTokens</label>
+                    <input type="text" id="amountOutBBToken" name="amountOutBBToken" placeholder="# Exact BBTokens">
+                    </br>
+                    <button id="btnSwapForExact">Swap USDCoins for Exact BBTokens</button>
+                    <span id="spanSwapForExact" style="color: blue;"></span>
+                    <span id="errorSwapForExact" style="color: red;"></span>
+                </div>
+            </td>
+        </tr>
+    </table>
+    <br>
+    <hr style="color:blue; border: solid;">
+    <br>
+    <table style="border-collapse: collapse">
+        <tr>
+            <td style="width:500px">
+                <h2>Allowance (USDC y BBToken)</h2>
+                <div>
+                    <label for="allowanceUsdcButton">Allowance de PublicSale sobre USDCoins</label>
+                    <button id="allowanceUsdcButton">Refresh</button>
+                    <span id="allowanceUsdcAmount" style="color: blue;"></span>
+                    <span id="allowanceUsdcError" style="color: red;"></span>
+                </div>
+                </br>
+                <div>
+                    <label for="allowanceBBTknButton">Allowance de PublicSale sobre BBtokens</label>
+                    <button id="allowanceBBTknButton">Refresh</button>
+                    <span id="allowanceBBTknAmount" style="color: blue;"></span>
+                    <span id="allowanceBBTknError" style="color: red;"></span>
+                </div>
+            </td>
+            <td style="width:500px">
+                <h2>Approves (USDC y BBToken)</h2>
+                <div>
+                    <label for="approveInputUSDC">Approve USDC a Public Sale</label>
+                    <input type="text" id="approveInputUSDC" name="approveInputUSDC" placeholder="# USDC to approve">
+                    <button id="approveButtonUSDC">Approve</button>
+                    <span id="approveUsdcOk" style="color: blue;"></span>
+                    <span id="approveUsdcError" style="color: red;"></span>
+                </div>
+                </br>
+                <div>
+                    <label for="approveInput">Approve BBToken a Public Sale</label>
+                    <input type="text" id="approveInput" name="approveInput" placeholder="# BBtokens to approve">
+                    <button id="approveButtonBBTkn">Approve</button>
+                    <span id="approveBBTokenOk" style="color: blue;"></span>
+                    <span id="approveBBTokenError" style="color: red;"></span>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+    </br>
+    <h2>Comprando NFTs en Public Sale</h2>
+    <div>
+        <label for="priceForAnyNftIdInput">Consult NFT price by id</label>
+        <input type="number" id="priceForAnyNftIdInput" name="priceForAnyNftIdInput" placeholder="NFT id">
+        <button id="priceForAnyNftIdBttn">Get Price</button>
+        <span id="priceForAnyNftIdText" style="color: blue;"></span>
+        <span id="priceForAnyNftIdError" style="color: red;"></span>
+    </div>
+    </br>
+    <div>
+        <label for="purchaseInput">Purchase By Id with BBites tokens (0 - 699)</label>
+        <input type="text" id="purchaseInput" name="purchaseInput" placeholder="NFT id">
+        <button id="purchaseButton">Purchase</button>
+        <span id="purchaseBBTokenOk" style="color: blue;"></span>
+        <span id="purchaseError" style="color: red;"></span>
+    </div>
+    </br>
+    <div id="divSwap">
+        <div>
+            <label for="nftIdForEstimateUsdc">Estimate USDCoins 'ForExactBBTokens' (NFT: 0 - 699)</label>
+            <input type="number" id="nftIdForEstimateUsdc" name="nftIdForEstimateUsdc" placeholder="NFT id">
+            <button id="estimateButtonUSDC">Estimate</button>
+            <span id="estimationUSDC" style="color: blue;"></span>
+            <span id="estimateErrorUSDC" style="color: red;"></span>
+        </div>
+        </br>
+        <div>
+            <label for="purchaseInputUSDC">Purchase By Id with USDC (0 - 699)</label>
+            <input type="number" id="purchaseInputUSDC" name="purchaseInputUSDC" placeholder="NFT id">
+            <input type="number" id="amountInUSDCInput" name="amountInUSDCInput" placeholder="UDSC amount in">
+            <button id="purchaseButtonUSDC">Purchase</button>
+            <span id="purchaseUsdcOk" style="color: blue;"></span>
+            <span id="purchaseErrorUSDC" style="color: red;"></span>
+        </div>
+    </div>
+    </br>
+    <div>
+        <label for="purchaseInputEtherId">Purchase By Id With Ether (700 - 999)</label>
+        <input type="text" id="purchaseInputEtherId" name="purchaseInputEtherId" placeholder="NFT id">
+        <button id="purchaseButtonEtherId">Purchase</button>
+        <span id="purchaseEtherOk" style="color: blue;"></span>
+        <span id="purchaseEtherIdError" style="color: red;"></span>
+    </div>
+    </br>
+    <div>
+        <label for="sendEtherInput">Send Ether to Public Sale (random 700 - 999)</label>
+        <button id="sendEtherButton">Send</button>
+        <span id="sendEtherOk" style="color: blue;"></span>
+        <span id="sendEtherError" style="color: red;"></span>
+    </div>
+    <br>
+
+    <div>
+        <h2 style="display: inline-flex">Withdraw del contrato PublicSale</h2>
+        <button id="withdrawEtherBtn">Withdraw Ethers</button>&nbsp;&nbsp;&nbsp;&nbsp;<button id="withdrawBBTokenBtn">Withdraw BBTokens</button>
+        <span id="withdrawEther_Ok" style="color: blue;"></span>
+        <span id="withdrawEther_Error" style="color: red;"></span>
+        <span id="withdrawBBToken_Ok" style="color: blue;"></span>
+        <span id="withdrawBBToken_Error" style="color: red;"></span>
+    </div>
+
+    <h2 style="color:blue;">Eventos</h2>
+
+    <h3>Contrato USDCoin - Transfer</h3>
+    <div id="usdcList"></div>
+
+    <h3>Contrato BBites Token - Transfer</h3>
+    <div id="bbitesTList"></div>
+
+    <h3>Contrato Public Sale - PurchaseNftWithId</h3>
+    <div id="pubSList"></div>
+    <br>
+</div>
+
+<div>
+    <h1>FIRMA DIGITAL DEL COMPRADOR</h1>
+    <label for="bbTokenAddressInput">BBToken Contract Address</label>
+    <input type="text" id="bbTokenAddressInput" name="bbTokenAddressInput" readonly placeholder="bbToken Address" style="width: 350px;">
+    </br>
+    <label for="publicSaleAddressInput">Spender Address (PublicSale Contract Address)</label>
+    <input type="text" id="publicSaleAddressInput" name="publicSaleAddressInput" readonly placeholder="spender Address" style="width: 350px;">
+    </br>
+    <label for="amountBBTokensToPermit">Monto para dar Allowance al Spender</label>
+    <input type="number" id="amountBBTokensToPermit" name="amountBBTokensToPermit" placeholder="Amount BBTokens">
+    </br>
+    <button id="sendFirmaDigital">Generar Firma Digital (enviarlo al autotask)</button>
+    <span id="firmaDigitalOk" style="color: blue;"></span>
+    <span id="firmaDigitalError" style="color: red;"></span>
+</div>
+
+<div style="background-color:rgb(255, 251, 0)">
+    <h1>RED MUMBAI</h1>
+    <h2>Contract Addresses</h2>
+    <table style="border-collapse:collapse; margin: 0px; padding: 0px;">
+        <tr>
+            <th style="width:200px"></th>
+            <th style="width:600px">Adress</th>
+        </tr>
+        <tr>
+            <td>CuyCollectionNft</td>
+            <td><span id="nftAddress"></span></td>
+        </tr>
+    </table>
+    <h2>Obtener dueño de NFT si existe el NFT</h2>
+    <div>
+        <label for="nftId">NFT Id:</label>
+        <input type="number" id="ntfId" name="ntfId" placeholder="NFT id">
+        <button id="getNftOwner">Obtener dueño</button>
+        <span id="nftOwner" style="color: blue;"></span>
+        <span id="nftOwnerError" style="color: red;"></span>
+    </div>
+
+    <h2>Acuñando de whitelist en NFT Contract</h2>
+    <div>
+        <label for="priceNftIdInput">Get proofs for id and account:</label>
+        <input type="number" id="inputIdProofId" name="inputIdProof" placeholder="NFT id">
+        <input type="text" id="inputAccountProofId" name="inputAccountProof" placeholder="Account">
+        <button id="getProofsButtonId">Print and Copy To Clipboard</button>
+        <span id="showProofsTextId"></span>
+    </div>
+
+    </br>
+    <div>
+        <label for="priceNftIdInput">Mint with Whitelist:</label>
+        <input type="text" id="whiteListToInputId" name="whiteListToInput" placeholder="to">
+        <input type="number" id="whiteListToInputTokenId" name="whiteListToInputToken" placeholder="tokenId">
+        <input type="text" id="whiteListToInputProofsId" name="whiteListToInputProofs" placeholder="proofs">
+        <button id="safeMintWhiteListBttnId">Safe Mint</button>
+        <span id="whiteListMintOk" style="color: blue;"></span>
+        <span id="whiteListMintError" style="color: red;"></span>
+    </div>
+
+    </br>
+    <div>
+        <label for="buyBackInputId">Buy Back and Burn NFT:</label>
+        <input type="number" id="buyBackInputId" name="buyBackInput" placeholder="NFT id">
+        <button id="buyBackBttn">Buy Back and Burn</button>
+        <span id="buyBackOk" style="color: blue;"></span>
+        <span id="buyBackError" style="color: red;"></span>
+    </div>
+
+    </br>
+    <h2 style="color:blue;">Eventos</h2>
+
+    <h3>Contrato NFT - Transfer</h3>
+    <div id="nftList"></div>
+
+    <h3>Contrato NFT - Burn</h3>
+    <div id="burnList"></div>
+
+    <br>
+</div>
+
+</body>
+
+</html>

@@ -1,0 +1,15 @@
+{
+  "addresses": {
+    "usdcAddress": "0x9608b640E6Dd731572eEf53701E8cb9f5278d723",
+    "bbTokenAddress": "0x6562bAEEd7CaDB304B5EEdeE6CD5713C44c9334E",
+    "publicSaleAddress": "0x4B066f9F7ebDE0B7f6501A318Be07eedF06dbAb5",
+    "liqProviderAddress": "0x70093cD0bE206A7A0C1B15cCe9aAa7E0Dc6AC111",
+    "swapperAddress": "0x3CE67552febab114d5fbb1a0694C113687a4490E",
+    "nftAddress": "0x9B1724C4fE930c076A1d33F925edeBC5020ef1Ad"
+  },
+  "urls": {
+    "rpcUrl_Goerli": "https://goerli.infura.io/v3/d9a8ce72510f4302afce5a62bd6627a2",
+    "rpcUrl_Mumbai": "https://polygon-mumbai.g.alchemy.com/v2/uca96CwYpuaJGqfTkIJsvOu8LsaGTQM3",
+    "WebhookURI_FirmaDigital": "https://api.defender.openzeppelin.com/autotasks/b2a7197a-0aae-4061-873e-e76a92c3b033/runs/webhook/a27f72ca-d217-4a2c-90e4-548e051b1676/L7m2eF3qgQQ2UxALyoLP8v"
+  }
+}

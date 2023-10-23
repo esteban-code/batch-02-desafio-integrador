@@ -1,0 +1,27 @@
+{
+  "name": "MOCHE#830",
+  "description": "Coleccion de Esteban del desafio integrador",
+  "image": "ipfs://QmWJ3udcvB2XjvgWjcn8YrC7w8VEL2VWaUMq1x6Ns4t29k/830.png",
+  "attributes": [
+    {
+      "trait_type": "MANTO",
+      "value": "MANTO SIERRA"
+    },
+    {
+      "trait_type": "BANCO",
+      "value": "HUACO"
+    },
+    {
+      "trait_type": "CUY",
+      "value": "CUY HIELO"
+    },
+    {
+      "trait_type": "CHULLO",
+      "value": "PEGASO"
+    },
+    {
+      "trait_type": "CARA",
+      "value": "COVID"
+    }
+  ]
+}

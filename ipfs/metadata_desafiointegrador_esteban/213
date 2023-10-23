@@ -1,0 +1,27 @@
+{
+  "name": "MOCHE#213",
+  "description": "Coleccion de Esteban del desafio integrador",
+  "image": "ipfs://QmWJ3udcvB2XjvgWjcn8YrC7w8VEL2VWaUMq1x6Ns4t29k/213.png",
+  "attributes": [
+    {
+      "trait_type": "MANTO",
+      "value": "MANTO NASCA"
+    },
+    {
+      "trait_type": "BANCO",
+      "value": "AMOR"
+    },
+    {
+      "trait_type": "CUY",
+      "value": "CUY HUACO"
+    },
+    {
+      "trait_type": "CHULLO",
+      "value": "CHULLO CUSCO"
+    },
+    {
+      "trait_type": "CARA",
+      "value": "LENTES"
+    }
+  ]
+}
